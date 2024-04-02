@@ -5,22 +5,25 @@
 package com.mycompany.libraryaccounting.data;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 import com.github.javafaker.Faker;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  *
  * @author 79175
  */
+//src/main/resources/Books.txt"
 public class DataWorker {
     
     public static ArrayList<String> readBooks() {
-        ArrayList<String> books = new ArrayList<String>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(
-                "src/main/java/com/mycompany/libraryaccounting/resources/Books.txt"))) {
+        ArrayList<String> books = new ArrayList<>();
+        try {
+            InputStream inputStream = DataWorker.class.getResourceAsStream("/Books.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line;
             
             while ((line = reader.readLine()) != null) {

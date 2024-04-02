@@ -13,6 +13,8 @@ import com.mycompany.libraryaccounting.models.books.RussianFictionBook;
 import com.mycompany.libraryaccounting.models.books.RussianStudyBook;
 import com.mycompany.libraryaccounting.models.users.Student;
 import com.mycompany.libraryaccounting.models.users.Teacher;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
@@ -43,13 +45,17 @@ public final class UserGUI extends javax.swing.JFrame {
     }
     
     public void initOtherComponents() {
+        URL inputStream = this.getClass().getResource("/nullPersonPhoto.png");
         nullUserIcon = new ImageIcon(
-                "src/main/java/com/mycompany/libraryaccounting/resources/nullPersonPhoto.png");
+                inputStream);
+        inputStream = this.getClass().getResource("/Introduction.png");
         introIcon = new ImageIcon(
-                "src/main/java/com/mycompany/libraryaccounting/resources/Introduction.png");
+                inputStream);
+        inputStream = this.getClass().getResource("/bookImage.png");
         bookIcon = new ImageIcon(
-                "src/main/java/com/mycompany/libraryaccounting/resources/bookImage.png");
-        logo = new ImageIcon("src/main/java/com/mycompany/libraryaccounting/resources/logo.jpg");
+                inputStream);
+        inputStream = this.getClass().getResource("/logo.jpg");
+        logo = new ImageIcon(inputStream);
         this.setIconImage(logo.getImage());
         mainImage.setIcon(introIcon);
         InfoDialog.setIconImage(logo.getImage());
@@ -389,7 +395,6 @@ public final class UserGUI extends javax.swing.JFrame {
         String[] userData;
         try {
             String nameOfBook = (String) listOfLibrarysBooks.getSelectedItem();
-            System.out.println(nameOfBook);
             userData = JTree.getLastSelectedPathComponent().toString().split(" | ");           
             Ticket ticket = managementController.getMainLibrary().findTicketByUserID(userData[3]);
             ticket.takeBook(managementController.getMainLibrary().findBookByName(nameOfBook));
@@ -440,7 +445,6 @@ public final class UserGUI extends javax.swing.JFrame {
             ExtraInformationLabel.setVisible(true);
             mainImage.setIcon(nullUserIcon);
             String[] userData = selectedNode.toString().split(" | ");
-            System.out.println(Arrays.toString(userData));
             Ticket ticket = managementController.getMainLibrary().findTicketByUserID(userData[3]);
             mainImage.setVisible(true);
             if (ticket.getUser() instanceof Teacher teacher) {
@@ -503,7 +507,6 @@ public final class UserGUI extends javax.swing.JFrame {
         };
         };
         String choice = bookTypeComboBox.getSelectedItem().toString();
-        System.out.println(choice);
         model.addColumn("Название");
         
         switch (choice) {
@@ -527,7 +530,7 @@ public final class UserGUI extends javax.swing.JFrame {
                 for(Book book: managementController.getMainLibrary().getAllBooksList()) {
                     if (book instanceof ForeignStudyBook fsb) {
                         String[] line = {fsb.getName(),
-                        fsb.getLevel(), fsb.getUniversity(), fsb.getLanguage(), fsb.getLanguage(),
+                        fsb.getLevel(), fsb.getUniversity(), fsb.getDiscipline(), fsb.getLanguage(),
                         String.valueOf(fsb.getPageNumber())};
                         model.addRow(line);
                     }
@@ -551,7 +554,6 @@ public final class UserGUI extends javax.swing.JFrame {
                model.addColumn("Кол-во страниц");
                for(Book book: managementController.getMainLibrary().getAllBooksList()) {
                     if (book instanceof RussianFictionBook rfb) {
-                        System.out.println(rfb.getName() +" " + choice);
                         String[] line = {rfb.getName(), rfb.getGenre(), rfb.getPublisher(),
                         String.valueOf(rfb.getPageNumber())};
                         model.addRow(line);
