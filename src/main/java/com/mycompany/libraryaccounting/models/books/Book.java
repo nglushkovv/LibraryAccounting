@@ -12,11 +12,17 @@ public abstract class Book {
     private String name;
     private int pageNumber;
     private String id;
+    private TYPE type;
     
-    public Book (String name, int pageNumber, String id) {
+    public enum TYPE{
+        RUSSIAN_STUDY, FOREIGN_STUDY, RUSSIAN_FICTION, FOREIGN_FICTION;
+    }
+    
+    public Book (String name, int pageNumber, String id, TYPE type) {
         this.name = name;
         this.pageNumber = pageNumber;
         this.id = id;
+        this.type = type;
     }
     
     
@@ -45,8 +51,8 @@ public abstract class Book {
         id = ID;
     }
     
-
-    
-    
-    
+    public TYPE getBookType() {
+        return type;
+    }
+   
 }

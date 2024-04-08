@@ -9,6 +9,7 @@ import com.mycompany.libraryaccounting.data.DataWorker;
 import com.mycompany.libraryaccounting.models.Ticket;
 import com.mycompany.libraryaccounting.models.users.Student;
 import com.mycompany.libraryaccounting.models.users.Teacher;
+import com.mycompany.libraryaccounting.models.users.User.TYPE;
 
 /**
  *
@@ -30,7 +31,7 @@ public class UserFactory {
                             name[2],
                             ticket,
                             "Кафедра физического воспитания (№15)",
-                            name[1]);
+                            name[1], TYPE.TEACHER);
                     
                     ticket.setUser(teacher);
                     ticket.setId(String.valueOf(id));
@@ -46,8 +47,9 @@ public class UserFactory {
                             name[1],
                             ticket,
                             "B" + String.valueOf((int) (Math.random() * 4 + 19)) +
-                                    "-" + String.valueOf((int) (Math.random() * 800 + 102)));
-                    
+                                    "-" + String.valueOf((int) (Math.random() * 800 + 102)),
+                            TYPE.STUDENT);
+                                    
                     ticket.setUser(student);
                     ticket.setId(String.valueOf(id));
                     id += 1;

@@ -27,7 +27,9 @@ public class DataWorker {
             String line;
             
             while ((line = reader.readLine()) != null) {
-                books.add(line);
+                if (line!=null) {
+                    books.add(line);
+                } 
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -7,12 +7,17 @@ package com.mycompany.libraryaccounting;
 
 import com.mycompany.libraryaccounting.models.Ticket;
 import com.mycompany.libraryaccounting.models.books.Book;
+import static com.mycompany.libraryaccounting.models.books.Book.TYPE.FOREIGN_FICTION;
+import static com.mycompany.libraryaccounting.models.books.Book.TYPE.FOREIGN_STUDY;
+import static com.mycompany.libraryaccounting.models.books.Book.TYPE.RUSSIAN_FICTION;
+import static com.mycompany.libraryaccounting.models.books.Book.TYPE.RUSSIAN_STUDY;
 import com.mycompany.libraryaccounting.models.books.ForeignFictionBook;
 import com.mycompany.libraryaccounting.models.books.ForeignStudyBook;
 import com.mycompany.libraryaccounting.models.books.RussianFictionBook;
 import com.mycompany.libraryaccounting.models.books.RussianStudyBook;
 import com.mycompany.libraryaccounting.models.users.Student;
 import com.mycompany.libraryaccounting.models.users.Teacher;
+import com.mycompany.libraryaccounting.models.users.User;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
@@ -32,6 +37,7 @@ public final class UserGUI extends javax.swing.JFrame {
             
     /**
      * Creates new form UserGUI
+     * @param managementController
      */
     public UserGUI(ManagementController managementController) {
         this.managementController = managementController;
@@ -84,15 +90,12 @@ public final class UserGUI extends javax.swing.JFrame {
             libraryModel.add(user);
             for(Book b: t.getListOfTakenBooks()) {
                 user.add(new DefaultMutableTreeNode(b.getName()));
-            }
-            
+            } 
             
         }
         
         JTree.setModel(new javax.swing.tree.DefaultTreeModel(libraryModel));
-        
-        
-        
+
     }
     
     
@@ -383,7 +386,6 @@ public final class UserGUI extends javax.swing.JFrame {
                 }
             }    
         } catch (Exception e) {
-            e.printStackTrace();
             ErrorMessage.setVisible(true);
         }
         
@@ -398,8 +400,6 @@ public final class UserGUI extends javax.swing.JFrame {
             ticket.takeBook(managementController.getMainLibrary().findBookByName(nameOfBook));
             AddBookDialog.setVisible(false);
             configureJTree();
-            
-            
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -431,81 +431,115 @@ public final class UserGUI extends javax.swing.JFrame {
     private void listOfUserBooksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listOfUserBooksActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_listOfUserBooksActionPerformed
-
+    
+    private void handleTreeClickOnUser(User user) {
+        switch(user.getType()) {
+            case STUDENT:
+                Student student = (Student) user;
+                FullNameLabel.setText(student.getFirstName() + " " +
+                        student.getLastName());
+                ExtraInformationLabel.setText(student.getGroupNumber());
+            case TEACHER:
+                Teacher teacher = (Teacher) user;
+                FullNameLabel.setText(teacher.getFirstName() + " " +
+                        teacher.getPatronymic() + " " +
+                        teacher.getLastName());
+                ExtraInformationLabel.setText(teacher.getDepartment());
+                
+        }
+    }
+    
+    private void handleTreeClickOnBook(Book book) {
+        switch(book.getBookType()) {
+            case RUSSIAN_STUDY:
+                RussianStudyBook rsb = (RussianStudyBook) book;
+                ExtraInformationLabel.setText("<html><center>" + rsb.getType()
+                        + "<br>" + rsb.getDiscipline() + "<br>"
+                        + rsb.getPageNumber() + " страниц <center><html>");
+                break;
+            case FOREIGN_STUDY:
+                ForeignStudyBook fsb = (ForeignStudyBook) book;
+                ExtraInformationLabel.setText("<html><center>" + fsb.getLevel()
+                        + "<br>" + fsb.getUniversity() + "<br>" + fsb.getDiscipline() + "<br>"
+                        + fsb.getLanguage() + "<br>" + fsb.getPageNumber() 
+                        + " страниц <center><html>");  
+                break;
+            case RUSSIAN_FICTION:
+                RussianFictionBook rfb = (RussianFictionBook) book;
+                ExtraInformationLabel.setText("<html><center>" + rfb.getGenre() + "<br>"
+                        + rfb.getPublisher() + "<br>" + rfb.getPageNumber() 
+                        + " страниц <center><html>"); 
+                break;
+            case FOREIGN_FICTION:
+                ForeignFictionBook ffb = (ForeignFictionBook) book;
+                ExtraInformationLabel.setText("<html><center>" + ffb.getGenre() + "<br>"
+                        + ffb.getPlaceOfPublishing() + "<br>" + ffb.getPageNumber() 
+                        + " страниц <center><html>");
+                break;
+                
+        }
+    }
     private void JTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTreeMouseClicked
-        FullNameLabel.setText("");
-        mainImage.setVisible(false);
-        ExtraInformationLabel.setText("");
+
         DefaultMutableTreeNode selectedNode = 
                         (DefaultMutableTreeNode)JTree.getLastSelectedPathComponent();
-        if (selectedNode.toString().contains("|")){
+        if (selectedNode != null && selectedNode.toString().contains("|")){
             FullNameLabel.setVisible(true);
             ExtraInformationLabel.setVisible(true);
             mainImage.setIcon(nullUserIcon);
             String[] userData = selectedNode.toString().split(" | ");
             Ticket ticket = managementController.getMainLibrary().findTicketByUserID(userData[3]);
             mainImage.setVisible(true);
-            if (ticket.getUser() instanceof Teacher teacher) {
-                
-                FullNameLabel.setText(ticket.getUser().getFirstName() + " " +
-                        teacher.getPatronymic() + " " +
-                        ticket.getUser().getLastName());
-                ExtraInformationLabel.setText(teacher.getDepartment());
-                
-            } else if (ticket.getUser() instanceof Student student) {
-                FullNameLabel.setText(ticket.getUser().getFirstName() + " " +
-                        ticket.getUser().getLastName());
-                ExtraInformationLabel.setText(student.getGroupNumber());
-            
-        }
-        } else if ("Библиотека".equals(selectedNode.toString())) {
+            handleTreeClickOnUser(ticket.getUser());
+
+        } else if (selectedNode != null && "Библиотека".equals(selectedNode.toString())) {
             mainImage.setIcon(introIcon);
             mainImage.setVisible(true);
             FullNameLabel.setText("Система библиотечного учета");
             ExtraInformationLabel.setText("by Глушков Никита Б22-902");
-        } else {
+        } else if (selectedNode != null){
             mainImage.setIcon(bookIcon);
             mainImage.setVisible(true);
             FullNameLabel.setText(selectedNode.toString());
             Book book = managementController.getMainLibrary()
                     .findBookByName(selectedNode.toString());
-            
-            if (book instanceof RussianStudyBook rsb) {
-                ExtraInformationLabel.setText("<html><center>" + rsb.getType()
-                        + "<br>" + rsb.getDiscipline() + "<br>"
-                        + rsb.getPageNumber() + " страниц <center><html>");
-            }
-            else if (book instanceof ForeignStudyBook fsb) {
-                ExtraInformationLabel.setText("<html><center>" + fsb.getLevel()
-                        + "<br>" + fsb.getUniversity() + "<br>" + fsb.getDiscipline() + "<br>"
-                        + fsb.getLanguage() + "<br>" + fsb.getPageNumber() 
-                        + " страниц <center><html>");  
-            }
-            else if (book instanceof RussianFictionBook rfb) {
-                ExtraInformationLabel.setText("<html><center>" + rfb.getGenre() + "<br>"
-                        + rfb.getPublisher() + "<br>" + rfb.getPageNumber() 
-                        + " страниц <center><html>");  
-            }
-            else if (book instanceof ForeignFictionBook ffb) {
-                ExtraInformationLabel.setText("<html><center>" + ffb.getGenre() + "<br>"
-                        + ffb.getPlaceOfPublishing() + "<br>" + ffb.getPageNumber() 
-                        + " страниц <center><html>"); 
-            }
-
+            handleTreeClickOnBook(book);
 
         }
         
     }//GEN-LAST:event_JTreeMouseClicked
-
-    private void drawBookTable() {
-        DefaultTableModel model = new DefaultTableModel() {
-             @Override
-             public boolean isCellEditable(int row, int column) {
-                return false;
-        };
-        };
-        String choice = bookTypeComboBox.getSelectedItem().toString();
-        model.addColumn("Название");
+    private void parseBooksToTable(Book book, DefaultTableModel model) {
+        String[] line = null;
+        System.out.println(book.getName());
+        
+        switch(book.getBookType()) {
+            case RUSSIAN_STUDY:
+                RussianStudyBook rsb = (RussianStudyBook) book;
+                line = new String[] {rsb.getName(), rsb.getType(), 
+                    rsb.getDiscipline(), String.valueOf(rsb.getPageNumber())};
+                break;
+            case FOREIGN_STUDY:
+                ForeignStudyBook fsb = (ForeignStudyBook) book;
+                line = new String[] {fsb.getName(), fsb.getLevel(), fsb.getUniversity(), fsb.getDiscipline(), fsb.getLanguage(),
+                        String.valueOf(fsb.getPageNumber())};
+                break;
+            case RUSSIAN_FICTION:
+                RussianFictionBook rfb = (RussianFictionBook) book;
+                line = new String[] {rfb.getName(), rfb.getGenre(), rfb.getPublisher(),
+                        String.valueOf(rfb.getPageNumber())};
+                break;
+            case FOREIGN_FICTION:
+                ForeignFictionBook ffb = (ForeignFictionBook) book;
+                line = new String[] {ffb.getName(), ffb.getGenre(), ffb.getPlaceOfPublishing(),
+                        String.valueOf(ffb.getPageNumber())};
+                break;
+                
+                
+        }
+        model.addRow(line);
+    }
+    
+    private void fillBookTable(DefaultTableModel model, String choice) {
         
         switch (choice) {
             case "Русская учебная литература":
@@ -513,11 +547,11 @@ public final class UserGUI extends javax.swing.JFrame {
                 model.addColumn("Дисциплина");
                 model.addColumn("Кол-во страниц");
                 for(Book book: managementController.getMainLibrary().getAllBooksList()) {
-                    if (book instanceof RussianStudyBook rsb) {
-                        String[] line = {rsb.getName(), rsb.getType(), rsb.getDiscipline(), String.valueOf(rsb.getPageNumber())};
-                        model.addRow(line);
+                    if(book.getBookType() == RUSSIAN_STUDY){
+                        parseBooksToTable(book, model);
                     }
                 }
+                
                 break;
             case "Иностранная учебная литература":
                 model.addColumn("Уровень");
@@ -526,45 +560,55 @@ public final class UserGUI extends javax.swing.JFrame {
                 model.addColumn("Язык");
                 model.addColumn("Кол-во страниц");
                 for(Book book: managementController.getMainLibrary().getAllBooksList()) {
-                    if (book instanceof ForeignStudyBook fsb) {
-                        String[] line = {fsb.getName(),
-                        fsb.getLevel(), fsb.getUniversity(), fsb.getDiscipline(), fsb.getLanguage(),
-                        String.valueOf(fsb.getPageNumber())};
-                        model.addRow(line);
+                    if(book.getBookType() == FOREIGN_STUDY){
+                        parseBooksToTable(book, model);
                     }
                 }
+                
                 break;
             case "Иностранная художественная литература":
                 model.addColumn("Жанр");
                 model.addColumn("Место издания");
                 model.addColumn("Кол-во страниц");
                 for(Book book: managementController.getMainLibrary().getAllBooksList()) {
-                    if (book instanceof ForeignFictionBook ffb) {
-                        String[] line = {ffb.getName(), ffb.getGenre(), ffb.getPlaceOfPublishing(),
-                        String.valueOf(ffb.getPageNumber())};
-                        model.addRow(line);
+                    if(book.getBookType() == FOREIGN_FICTION){
+                        parseBooksToTable(book, model);
                     }
                 }
+                
                break;
             case "Русская художественная литература":
                model.addColumn("Жанр");
                model.addColumn("Издатель");
                model.addColumn("Кол-во страниц");
                for(Book book: managementController.getMainLibrary().getAllBooksList()) {
-                    if (book instanceof RussianFictionBook rfb) {
-                        String[] line = {rfb.getName(), rfb.getGenre(), rfb.getPublisher(),
-                        String.valueOf(rfb.getPageNumber())};
-                        model.addRow(line);
+                    if(book.getBookType() == RUSSIAN_FICTION){
+                        parseBooksToTable(book, model);
                     }
                 }
+              
                break;
-            
         }
+        
+        
+    }
+    private void drawBookTable() {
+        DefaultTableModel model = new DefaultTableModel() {
+             @Override
+             public boolean isCellEditable(int row, int column) {
+                return false;
+             };
+        };
+        model.addColumn("Название");
+        String choice = bookTypeComboBox.getSelectedItem().toString();
+        fillBookTable(model,choice);
         bookTable.setModel(model);
+        
+ 
     }
     private void bookTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bookTypeComboBoxActionPerformed
-        
         drawBookTable();
+        
     }//GEN-LAST:event_bookTypeComboBoxActionPerformed
 
     

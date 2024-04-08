@@ -15,12 +15,19 @@ public abstract class User {
     private String firstName;
     private String lastName;
     private Ticket ticket;
+    private TYPE type;
     
-    public User(String id, String firstName, String lastName, Ticket ticket) {
+    public enum TYPE{
+        STUDENT, TEACHER
+        
+    }
+    
+    public User(String id, String firstName, String lastName, Ticket ticket, TYPE type) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.ticket = ticket;
+        this.type = type;
     }
     
     public String getId(){
@@ -54,4 +61,11 @@ public abstract class User {
     public void setTicket(Ticket ticket) {
         this.ticket = ticket;
     }
+    
+    public TYPE getType() {
+        return type;
+    }
+    
+
+    
 }

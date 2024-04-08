@@ -15,8 +15,8 @@ public class Student extends User {
     private String groupNumber;
     
     public Student (String id, String firstName, String lastName,
-            Ticket ticket, String groupNumber) {
-        super(id, firstName, lastName, ticket);
+            Ticket ticket, String groupNumber, TYPE type) {
+        super(id, firstName, lastName, ticket, type);
         this.groupNumber = groupNumber;
     }
     

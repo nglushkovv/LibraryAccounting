@@ -9,13 +9,10 @@ package com.mycompany.libraryaccounting.models.books;
  * @author 79175
  */
 public class StudyBook extends Book {
-    private String name;
-    private int pageNumber;
-    private String id;
     private String discipline;
     
-    public StudyBook(String name, int pageNumber, String id, String disc) {
-        super(name, pageNumber, id);
+    public StudyBook(String name, int pageNumber, String id, String disc, TYPE type) {
+        super(name, pageNumber, id, type);
         this.discipline = disc;
     }
     

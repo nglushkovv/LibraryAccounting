@@ -12,8 +12,8 @@ public class ForeignFictionBook extends FictionBook {
     private String placeOfPublishing;
     
     public ForeignFictionBook(String name, int pageNumber, String id,
-            String genre, String placeOfPublishing) {
-        super(name, pageNumber, id, genre);
+            String genre, String placeOfPublishing, TYPE type) {
+        super(name, pageNumber, id, genre, type);
         this.placeOfPublishing = placeOfPublishing;
         
     }

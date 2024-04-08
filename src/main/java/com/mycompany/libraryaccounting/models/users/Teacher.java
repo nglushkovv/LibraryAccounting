@@ -16,8 +16,8 @@ public class Teacher extends User {
     private String patronymic;
     
     public Teacher (String id, String firstName, String lastName,
-            Ticket ticket, String department, String patronymic) {
-        super(id, firstName, lastName, ticket);
+            Ticket ticket, String department, String patronymic, TYPE type) {
+        super(id, firstName, lastName, ticket, type);
         this.patronymic = patronymic;
         this.department = department;
     }

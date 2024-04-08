@@ -2,13 +2,13 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>C:\Users\79175\Documents\NetBeansProjects\LibraryAccounting\target\LibraryAccounting-2.1 FIXED.jar</jar>
+  <jar>C:\Users\79175\Documents\NetBeansProjects\LibraryAccounting\target\LibraryAccounting-3.0.0.jar</jar>
   <outfile>C:\Users\79175\Documents\NetBeansProjects\LibraryAccounting\target\LibraryAccounting.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
   <priority>normal</priority>
-  <downloadUrl></downloadUrl>
+  <downloadUrl>http://java.com/download</downloadUrl>
   <supportUrl></supportUrl>
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
@@ -16,9 +16,11 @@
   <icon>C:\Users\79175\Desktop\gas-kvas-com-p-logotip-mifi-na-prozrachnom-fone-3.ico</icon>
   <jre>
     <path>JRE</path>
-    <requiresJdk>false</requiresJdk>
-    <requires64Bit>false</requires64Bit>
-    <minVersion>1.4.0</minVersion>
+    <bundledJre64Bit>false</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.6.0</minVersion>
     <maxVersion></maxVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <runtimeBits>32/64</runtimeBits>
   </jre>
 </launch4jConfig>

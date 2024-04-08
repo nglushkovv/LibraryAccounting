@@ -8,8 +8,8 @@ public class RussianStudyBook extends StudyBook {
     private String type;
     
     public RussianStudyBook(String name, int pageNumber, String id, String type,
-            String disc) {
-        super(name, pageNumber, id, disc);
+            String disc, TYPE Type) {
+        super(name, pageNumber, id, disc, Type);
         this.type = type;
         
     }

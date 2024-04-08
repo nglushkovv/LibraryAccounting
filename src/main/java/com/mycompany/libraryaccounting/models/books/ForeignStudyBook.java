@@ -11,12 +11,11 @@ public class ForeignStudyBook extends StudyBook {
     private String language;
     
     public ForeignStudyBook(String name, int pageNumber, String id,
-            String disc, String level, String univ, String lang) {
-        super(name, pageNumber, id, disc);
+            String disc, String level, String univ, String lang, TYPE type) {
+        super(name, pageNumber, id, disc, type);
         this.university = univ;
         this.level = level;
-        this.language = lang;
-        
+        this.language = lang; 
         
     }
     

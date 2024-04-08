@@ -1,6 +1,7 @@
 package com.mycompany.libraryaccounting.factories;
 
 import com.mycompany.libraryaccounting.models.books.Book;
+import com.mycompany.libraryaccounting.models.books.Book.TYPE;
 import com.mycompany.libraryaccounting.models.books.ForeignFictionBook;
 import com.mycompany.libraryaccounting.models.books.ForeignStudyBook;
 import com.mycompany.libraryaccounting.models.books.RussianFictionBook;
@@ -24,8 +25,9 @@ public class BookFactory {
                                     Integer.parseInt(pageNumber),
                                     String.valueOf(id),
                                     attributes[1],
-                                    attributes[2]);
+                                    attributes[2], TYPE.RUSSIAN_STUDY);
                             id += 1;
+                            break;
                     }
 
                         case "ForeignStudyBook" -> {
@@ -39,8 +41,9 @@ public class BookFactory {
                                     attributes[4],
                                     attributes[1],
                                     attributes[2],
-                                    attributes[3]);
+                                    attributes[3], TYPE.FOREIGN_STUDY);
                             id += 1;
+                            break;
                     }
 
                         case "RussianFictionBook" -> {
@@ -51,8 +54,9 @@ public class BookFactory {
                                     Integer.parseInt(pageNumber),
                                     String.valueOf(id),
                                     attributes[3].replace(" RU", ""),
-                                    attributes[2]);
+                                    attributes[2], TYPE.RUSSIAN_FICTION);
                             id += 1;
+                            break;
                     }
 
                         case "ForeignFictionBook" -> {
@@ -63,13 +67,14 @@ public class BookFactory {
                                     Integer.parseInt(pageNumber),
                                     String.valueOf(id),
                                     attributes[3].replace(" FL", ""),
-                                    attributes[2]);
+                                    attributes[2], TYPE.FOREIGN_FICTION);
                             
                             id += 1;
+                            break;
                     }
                 
                 }
-return book;
+                return book;
                 
                 } catch (Exception e) {
                     e.printStackTrace();
