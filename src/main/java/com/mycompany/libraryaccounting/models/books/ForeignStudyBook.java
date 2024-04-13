@@ -42,4 +42,20 @@ public class ForeignStudyBook extends StudyBook {
     public void setLanguage(String lang) {
         this.language = lang;
     }
+    @Override
+    public String[] getLine() {
+        String[] line = new String[] {this.getName(), this.getLevel(), this.getUniversity(),
+                    this.getDiscipline(), this.getLanguage(),
+                        String.valueOf(this.getPageNumber())};
+        return line;
+    }
+    
+    @Override
+    public String getInfo(){
+        String info = "<html><center>" + this.getLevel()
+                        + "<br>" + this.getUniversity() + "<br>" + this.getDiscipline() + "<br>"
+                        + this.getLanguage() + "<br>" + this.getPageNumber() 
+                        + " страниц <center><html>";
+        return info;
+    }
 }

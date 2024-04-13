@@ -45,6 +45,7 @@ public abstract class Book {
     public void setPageNumber(int q){
         pageNumber = q;
     }
+    public abstract String[] getLine();
     
     
     public void setId(String ID){
@@ -54,5 +55,8 @@ public abstract class Book {
     public TYPE getBookType() {
         return type;
     }
+    
+    public abstract String getInfo();
+    
    
 }

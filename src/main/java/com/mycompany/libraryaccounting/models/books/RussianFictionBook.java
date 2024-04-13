@@ -18,5 +18,19 @@ public class RussianFictionBook extends FictionBook {
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
+    @Override
+    public String[] getLine() {
+        String[] line = new String[] {this.getName(), this.getGenre(), this.getPublisher(),
+                        String.valueOf(this.getPageNumber())};
+        return line;
+    }
+    
+    @Override
+    public String getInfo() {
+        String info =  "<html><center>" + this.getGenre() + "<br>"
+                        + this.getPublisher() + "<br>" + this.getPageNumber() 
+                        + " страниц <center><html>";
+        return info;
+    }
     
 }

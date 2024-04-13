@@ -8,7 +8,7 @@ package com.mycompany.libraryaccounting.models.books;
  *
  * @author 79175
  */
-public class StudyBook extends Book {
+public abstract class StudyBook extends Book {
     private String discipline;
     
     public StudyBook(String name, int pageNumber, String id, String disc, TYPE type) {
@@ -23,6 +23,11 @@ public class StudyBook extends Book {
     public void setDiscipline(String disc) {
         this.discipline = disc;
     }
+    
+    @Override
+    public abstract String[] getLine();
+    @Override
+    public abstract String getInfo();
     
     
 }

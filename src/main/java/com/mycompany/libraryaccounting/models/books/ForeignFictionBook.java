@@ -25,4 +25,18 @@ public class ForeignFictionBook extends FictionBook {
     public void setPlaceOfPublishing(String placeOfPublishing) {
         this.placeOfPublishing = placeOfPublishing;
     }
+    
+    @Override
+    public String[] getLine() {
+        String[] line = new String[] {this.getName(), this.getGenre(), this.getPlaceOfPublishing(),
+                        String.valueOf(this.getPageNumber())};
+        return line;
+    }
+    
+    public String getInfo() {
+        String info = "<html><center>" + this.getGenre() + "<br>"
+                        + this.getPlaceOfPublishing() + "<br>" + this.getPageNumber() 
+                        + " страниц <center><html>";
+        return info;
+    }
 }

@@ -22,4 +22,17 @@ public class RussianStudyBook extends StudyBook {
         type = newtype;
     }
     
+    @Override
+    public String[] getLine() {
+        String[] line = new String[] {this.getName(), this.getType(), this.getDiscipline(),
+            String.valueOf(this.getPageNumber())};
+        return line;
+    }
+    
+    public String getInfo(){
+        String info = "<html><center>" + this.getType()
+                        + "<br>" + this.getDiscipline() + "<br>"
+                        + this.getPageNumber() + " страниц <center><html>";
+        return info;
+    };
 }

@@ -32,7 +32,12 @@ public class Ticket {
     }
     
     public void takeBook(Book book) {
-        listOfTakenBooks.add(book);
+        if (!listOfTakenBooks.contains(book)){
+            listOfTakenBooks.add(book);
+        }
+        else{
+            throw new IllegalArgumentException();
+        }
     }
     
     public void returnBook(Book book) {

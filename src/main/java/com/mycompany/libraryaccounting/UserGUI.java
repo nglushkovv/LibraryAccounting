@@ -20,6 +20,7 @@ import com.mycompany.libraryaccounting.models.users.Teacher;
 import com.mycompany.libraryaccounting.models.users.User;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -401,8 +402,9 @@ public final class UserGUI extends javax.swing.JFrame {
             AddBookDialog.setVisible(false);
             configureJTree();
             
-        } catch (Exception e) {
-            e.printStackTrace();
+;
+        } catch (IllegalArgumentException ex){
+            showErrorMessage();
         }
         
     }//GEN-LAST:event_addBookToUserActionPerformed
@@ -450,34 +452,9 @@ public final class UserGUI extends javax.swing.JFrame {
     }
     
     private void handleTreeClickOnBook(Book book) {
-        switch(book.getBookType()) {
-            case RUSSIAN_STUDY:
-                RussianStudyBook rsb = (RussianStudyBook) book;
-                ExtraInformationLabel.setText("<html><center>" + rsb.getType()
-                        + "<br>" + rsb.getDiscipline() + "<br>"
-                        + rsb.getPageNumber() + " страниц <center><html>");
-                break;
-            case FOREIGN_STUDY:
-                ForeignStudyBook fsb = (ForeignStudyBook) book;
-                ExtraInformationLabel.setText("<html><center>" + fsb.getLevel()
-                        + "<br>" + fsb.getUniversity() + "<br>" + fsb.getDiscipline() + "<br>"
-                        + fsb.getLanguage() + "<br>" + fsb.getPageNumber() 
-                        + " страниц <center><html>");  
-                break;
-            case RUSSIAN_FICTION:
-                RussianFictionBook rfb = (RussianFictionBook) book;
-                ExtraInformationLabel.setText("<html><center>" + rfb.getGenre() + "<br>"
-                        + rfb.getPublisher() + "<br>" + rfb.getPageNumber() 
-                        + " страниц <center><html>"); 
-                break;
-            case FOREIGN_FICTION:
-                ForeignFictionBook ffb = (ForeignFictionBook) book;
-                ExtraInformationLabel.setText("<html><center>" + ffb.getGenre() + "<br>"
-                        + ffb.getPlaceOfPublishing() + "<br>" + ffb.getPageNumber() 
-                        + " страниц <center><html>");
-                break;
+        ExtraInformationLabel.setText(book.getInfo());
                 
-        }
+        
     }
     private void JTreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JTreeMouseClicked
 
@@ -509,33 +486,9 @@ public final class UserGUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_JTreeMouseClicked
     private void parseBooksToTable(Book book, DefaultTableModel model) {
-        String[] line = null;
-        System.out.println(book.getName());
+              
         
-        switch(book.getBookType()) {
-            case RUSSIAN_STUDY:
-                RussianStudyBook rsb = (RussianStudyBook) book;
-                line = new String[] {rsb.getName(), rsb.getType(), 
-                    rsb.getDiscipline(), String.valueOf(rsb.getPageNumber())};
-                break;
-            case FOREIGN_STUDY:
-                ForeignStudyBook fsb = (ForeignStudyBook) book;
-                line = new String[] {fsb.getName(), fsb.getLevel(), fsb.getUniversity(), fsb.getDiscipline(), fsb.getLanguage(),
-                        String.valueOf(fsb.getPageNumber())};
-                break;
-            case RUSSIAN_FICTION:
-                RussianFictionBook rfb = (RussianFictionBook) book;
-                line = new String[] {rfb.getName(), rfb.getGenre(), rfb.getPublisher(),
-                        String.valueOf(rfb.getPageNumber())};
-                break;
-            case FOREIGN_FICTION:
-                ForeignFictionBook ffb = (ForeignFictionBook) book;
-                line = new String[] {ffb.getName(), ffb.getGenre(), ffb.getPlaceOfPublishing(),
-                        String.valueOf(ffb.getPageNumber())};
-                break;
-                
-                
-        }
+        String[] line = book.getLine();
         model.addRow(line);
     }
     
@@ -610,7 +563,10 @@ public final class UserGUI extends javax.swing.JFrame {
         drawBookTable();
         
     }//GEN-LAST:event_bookTypeComboBoxActionPerformed
-
+    private void showErrorMessage() {
+        JOptionPane.showMessageDialog(rootPane, "У пользователя уже есть такая книга.", "Ошибка.",
+                JOptionPane.ERROR_MESSAGE);
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
