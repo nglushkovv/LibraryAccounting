@@ -28,4 +28,14 @@ public class Student extends User {
         this.groupNumber = gn;
     }
     
+    @Override
+    public String getFullname(){
+        String name = this.getFirstName() + " " +this.getLastName();
+        return name;
+    }
+    
+    @Override
+    public String getExtraInformation(){
+        return this.getGroupNumber();
+    }
 }

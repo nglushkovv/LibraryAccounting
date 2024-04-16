@@ -66,6 +66,8 @@ public abstract class User {
         return type;
     }
     
+    public abstract String getFullname();
+    public abstract String getExtraInformation();
 
     
 }

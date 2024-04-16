@@ -393,7 +393,7 @@ public final class UserGUI extends javax.swing.JFrame {
             AddBookDialog.setVisible(false);
             configureJTree();
             
-;
+
         } catch (IllegalArgumentException ex){
             showErrorMessage();
         }
@@ -426,20 +426,9 @@ public final class UserGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_listOfUserBooksActionPerformed
     
     private void handleTreeClickOnUser(User user) {
-        switch(user.getType()) {
-            case STUDENT:
-                Student student = (Student) user;
-                FullNameLabel.setText(student.getFirstName() + " " +
-                        student.getLastName());
-                ExtraInformationLabel.setText(student.getGroupNumber());
-            case TEACHER:
-                Teacher teacher = (Teacher) user;
-                FullNameLabel.setText(teacher.getFirstName() + " " +
-                        teacher.getPatronymic() + " " +
-                        teacher.getLastName());
-                ExtraInformationLabel.setText(teacher.getDepartment());
-                
-        }
+        FullNameLabel.setText(user.getFullname());
+        ExtraInformationLabel.setText(user.getExtraInformation());
+        
     }
     
     private void handleTreeClickOnBook(Book book) {

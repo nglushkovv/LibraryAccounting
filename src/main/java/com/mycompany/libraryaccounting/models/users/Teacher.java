@@ -37,4 +37,17 @@ public class Teacher extends User {
     public void setPatronymic(String patr) {
         this.patronymic = patr;
     }
+    
+    @Override
+    public String getFullname(){
+        String name = this.getFirstName() + " " +
+                        this.getPatronymic() + " " +
+                        this.getLastName();
+        return name;
+    }
+    
+    @Override
+    public String getExtraInformation(){
+        return this.getDepartment();
+    }
 }
