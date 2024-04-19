@@ -329,7 +329,9 @@ public final class UserGUI extends javax.swing.JFrame {
         String[] userData;
        
         try{
-            
+            if("Библиотека".equals(JTree.getLastSelectedPathComponent().toString())){
+                throw new IllegalStateException();
+            }
             userData = JTree.getLastSelectedPathComponent().toString().split(" | ");
             ErrorMessage.setVisible(false);
             AddBookDialog.setVisible(true);
@@ -344,7 +346,6 @@ public final class UserGUI extends javax.swing.JFrame {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
             ErrorMessage.setVisible(true);
         }
         
@@ -366,15 +367,17 @@ public final class UserGUI extends javax.swing.JFrame {
                 userData = JTree.getLastSelectedPathComponent().toString().split(" | ");
                 Ticket ticket = managementController.getMainLibrary().findTicketByUserID(userData[3]);
                 ErrorMessage.setVisible(false);
-                ReturnBookDialog.setVisible(true);
-                ReturnBookDialog.setSize(680,150);
-                ReturnBookDialog.setTitle("Удаление книги");
-                ReturnBookDialog.setLocationRelativeTo(null);
-                listOfUserBooks.removeAllItems();
+                if (!ticket.getListOfTakenBooks().isEmpty()){
+                    ReturnBookDialog.setVisible(true);
+                    ReturnBookDialog.setSize(680,150);
+                    ReturnBookDialog.setTitle("Удаление книги");
+                    ReturnBookDialog.setLocationRelativeTo(null);
+                    listOfUserBooks.removeAllItems();
 
-                for(Book book: ticket.getListOfTakenBooks()) {
-                    listOfUserBooks.addItem(book.getName());
-                 
+                    for(Book book: ticket.getListOfTakenBooks()) {
+                        listOfUserBooks.addItem(book.getName());
+
+                    }
                 }
             }    
         } catch (Exception e) {
@@ -410,10 +413,11 @@ public final class UserGUI extends javax.swing.JFrame {
             String nameOfBook = (String) listOfUserBooks.getSelectedItem();
             userData = JTree.getLastSelectedPathComponent().toString().split(" | ");;            
             Ticket ticket = managementController.getMainLibrary().findTicketByUserID(userData[3]);
-            ticket.returnBook(ticket.findBookByName(nameOfBook));
-            ReturnBookDialog.setVisible(false);
-            configureJTree();
             
+                ticket.returnBook(ticket.findBookByName(nameOfBook));
+                configureJTree();
+            
+            ReturnBookDialog.setVisible(false);
             
             
         } catch (Exception e) {
