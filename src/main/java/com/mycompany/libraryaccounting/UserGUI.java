@@ -421,7 +421,6 @@ public final class UserGUI extends javax.swing.JFrame {
             
             
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }//GEN-LAST:event_returnSelectedBookActionPerformed
 
